@@ -41,7 +41,11 @@
             <tr>
                 <th> Name</th>
                 <th> Email</th>
-                <th></th>
+                <th>
+                    <form th:action="@{/admin/users/add}" th:object="${newUser}" method=get>
+                        <input class="btn btn-success" type="submit" value="Add"/>
+                    </form>
+                </th>
             </tr>
             </thead>
             <tbody>
