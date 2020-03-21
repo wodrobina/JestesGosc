@@ -26,7 +26,7 @@
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/">Admin panel</a>
+                <a class="nav-link" href="/admin/users">Admin panel</a>
             </li>
         </ul>
     </div>
@@ -34,18 +34,6 @@
 
 <main role="main" class="container">
 
-    <div class="starter-template">
-        <h1>New User Form</h1>
-        <form action="#" method="post" th:action="@{/admin/users/add}" th:object="${newUser}">
-            <p>Email: <label>
-                <input type="text" name="mail" th:field="*{mail}"/>
-            </label></p>
-            <p>Name: <label>
-                <input type="text" th:field="*{name}"/>
-            </label></p>
-            <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
-        </form>
-    </div>
     <div class="starter-template">
         <h1>All user</h1>
         <table>
@@ -64,7 +52,17 @@
                 <td><span th:text="${user.name}"> Name </span></td>
                 <td><span th:text="${user.email}"> Email </span></td>
                 <td>
-                    <input type="submit" value="Remove"/>
+                    <form th:action="@{/admin/users/edit}" th:object="${editUser}" method=get>
+                        <input type="hidden" name="identifyingEmail" th:value="${user.email}">
+                        <input type="hidden" name="newName" th:value="${user.name}">
+                        <input class="btn btn-primary" type="submit" value="Edit"/>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/admin/users/remove}" th:object="${deleteUser}" method=post>
+                        <input type="hidden" name="email" th:value="${user.email}">
+                        <input class="btn btn-danger" type="submit" value="Remove" onClick="return confirm('sure?')"/>
+                    </form>
                 </td>
             </tr>
             </tbody>

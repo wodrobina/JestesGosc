@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8"/>
-    <title>Home | Jesteś Gość</title>
+    <title>Admin | Jesteś Gość</title>
 
     <!-- Style -->
     <link rel="stylesheet" type="text/css"
@@ -26,7 +26,7 @@
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/users">Admin panel</a>
+                <a class="nav-link" href="/">Admin panel</a>
             </li>
         </ul>
     </div>
@@ -35,13 +35,21 @@
 <main role="main" class="container">
 
     <div class="starter-template">
-        <h1>W tym tygodniu Gościem jest:</h1>
-        <p class="lead" th:text="${gosc.getName()}"></p>
+        <h1>New User Form</h1>
+        <form action="#" method="post" th:action="@{/admin/users/edit}" th:object="${editUser}">
+            <p>Email: <label>
+                <input type="text" name="mail" th:field="*{identifyingEmail}" readonly/>
+            </label></p>
+            <p>Name: <label>
+                <input type="text" th:field="*{newName}"/>
+            </label></p>
+            <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+        </form>
     </div>
 
 </main><!-- /.container -->
 
-<!-- Scripts -->
+<!-- Scripts-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

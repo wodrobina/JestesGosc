@@ -1,6 +1,6 @@
 package eu.wodrobina.jestesgosc.model;
 
-import eu.wodrobina.jestesgosc.dto.NewUser;
+import eu.wodrobina.jestesgosc.dto.NewUserDto;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
@@ -24,9 +24,9 @@ public class User {
     protected User() {
     }
 
-    public User(NewUser newUser) {
-        this.email = newUser.getMail();
-        this.name = newUser.getName();
+    public User(NewUserDto newUserDto) {
+        this.email = newUserDto.getMail();
+        this.name = newUserDto.getName();
     }
 
     public String getEmail() {
@@ -35,6 +35,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

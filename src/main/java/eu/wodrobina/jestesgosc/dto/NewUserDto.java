@@ -1,11 +1,11 @@
 package eu.wodrobina.jestesgosc.dto;
 
-public class NewUser {
+public class NewUserDto {
 
     private String name;
     private String mail;
 
-    public NewUser() {
+    public NewUserDto() {
     }
 
     public void setName(String name) {
