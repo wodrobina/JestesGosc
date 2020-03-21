@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller()
 public class UserController {
@@ -54,7 +57,7 @@ public class UserController {
 
     @Transactional
     @PostMapping("/admin/users/edit")
-    public String editUser(@ModelAttribute(value = "edit") EditUserDto editUserDto, Model model) {
+    public String editUser(@ModelAttribute(value = "editUser") EditUserDto editUserDto, Model model) {
         Optional<User> editedUser = userRepository.findByEmail(editUserDto.getIdentifyingEmail());
         final User updatedUser = editedUser.orElseThrow();
         updatedUser.setName(editUserDto.getNewName());
@@ -76,7 +79,13 @@ public class UserController {
     }
 
     private void fillModelWithAllUsers(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", getUsersSortedByName());
+    }
+
+    private List<User> getUsersSortedByName() {
+        return userRepository.findAll().stream()
+                .sorted(Comparator.comparing(User::getName))
+                .collect(Collectors.toList());
     }
 
     private boolean requestedUserIsPresent(NewUserDto newUserDto) {
