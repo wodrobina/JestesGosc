@@ -1,12 +1,8 @@
 package eu.wodrobina.jestesgosc.model;
 
 import eu.wodrobina.jestesgosc.dto.NewUserDto;
-import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -14,8 +10,12 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @NaturalId
-    @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 5)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
     @Column(nullable = false)

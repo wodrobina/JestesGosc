@@ -34,11 +34,13 @@
 
 <main role="main" class="container">
 
-    <div class="starter-template">
+    <div class="starter-template" th:if="${gosc} != null">
         <h1>W tym tygodniu Gościem jest:</h1>
         <p class="lead" th:text="${gosc.getName()}"></p>
     </div>
-
+    <div class="starter-template" th:if="${gosc} == null">
+        <h1>Nikt nie jest gosciem</h1>
+    </div>
 </main><!-- /.container -->
 
 <!-- Scripts -->

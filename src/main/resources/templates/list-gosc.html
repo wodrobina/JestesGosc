@@ -49,17 +49,10 @@
             </tr>
             </thead>
             <tbody>
-
             <tr th:if="${users.empty}">
                 <td colspan="2"> No users Available</td>
             </tr>
             <tr th:each="user : ${users}">
-                <td>
-                    <form th:action="@{/admin/gosc/successor}" th:object="${successorGosc}" method=post>
-                        <input type="hidden" name="email" th:value="${user.email}">
-                        <input class="btn btn-light" type="submit" value="Set Successor" onClick="return confirm('sure?')"/>
-                    </form>
-                </td>
                 <td><span th:text="${user.name}"> Name </span></td>
                 <td><span th:text="${user.email}"> Email </span></td>
                 <td>

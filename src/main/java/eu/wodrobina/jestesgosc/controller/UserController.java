@@ -3,7 +3,9 @@ package eu.wodrobina.jestesgosc.controller;
 import eu.wodrobina.jestesgosc.dto.DeleteUserDto;
 import eu.wodrobina.jestesgosc.dto.EditUserDto;
 import eu.wodrobina.jestesgosc.dto.NewUserDto;
+import eu.wodrobina.jestesgosc.model.Gosc;
 import eu.wodrobina.jestesgosc.model.User;
+import eu.wodrobina.jestesgosc.repository.GoscRepository;
 import eu.wodrobina.jestesgosc.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,18 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final GoscRepository goscRepository;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, GoscRepository goscRepository) {
         this.userRepository = userRepository;
+        this.goscRepository = goscRepository;
+    }
+
+    @GetMapping("/admin/gosc")
+    public String getAllGosc(Model model) {
+        getUsersSortedByName();
+
+        return "list-gosc";
     }
 
     @GetMapping("/admin/users")
@@ -50,7 +61,9 @@ public class UserController {
     @Transactional
     @PostMapping("/admin/users/remove")
     public String removeUser(@ModelAttribute(value = "deleteUser") DeleteUserDto deleteUserDto, Model model) {
-        userRepository.deleteByEmail(deleteUserDto.getEmail());
+        goscRepository.findByUser_Email(deleteUserDto.getEmail())
+                .ifPresent(goscRepository::delete);
+//        userRepository.deleteByEmail(deleteUserDto.getEmail());
         fillModelWithAllUsers(model);
         return "admin";
     }
@@ -73,7 +86,9 @@ public class UserController {
         if (requestedUserIsPresent(newUserDto)) {
             throw new RuntimeException("User already exist");
         }
-        userRepository.save(new User(newUserDto));
+        User newUser = new User(newUserDto);
+        userRepository.save(newUser);
+        goscRepository.save(new Gosc(newUser));
         fillModelWithAllUsers(model);
         return "admin";
     }
