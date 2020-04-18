@@ -3,6 +3,7 @@ package eu.wodrobina.jestesgosc.model;
 import eu.wodrobina.jestesgosc.dto.NewUserDto;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,7 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @Email
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
